@@ -1,8 +1,8 @@
-# @git-headless-cms/web-components
+# @malihub/git-headless-cms-web-components
 
 > **Framework-agnostic Web Component toolbar for in-context editing with Git Headless CMS.**
 
-[![NPM Version](https://img.shields.io/npm/v/@git-headless-cms/web-components.svg)](https://www.npmjs.com/package/@git-headless-cms/web-components)
+[![NPM Version](https://img.shields.io/npm/v/@malihub/git-headless-cms-web-components.svg)](https://www.npmjs.com/package/@malihub/git-headless-cms-web-components)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -10,7 +10,7 @@
 ## 🚀 Installation
 
 ```bash
-npm install @git-headless-cms/web-components
+npm install @malihub/git-headless-cms-web-components
 ```
 
 ---
@@ -22,7 +22,7 @@ npm install @git-headless-cms/web-components
 Import the package to register the custom element `<git-cms-toolbar>`:
 
 ```typescript
-import '@git-headless-cms/web-components';
+import '@malihub/git-headless-cms-web-components';
 ```
 
 In your HTML document:

@@ -1,8 +1,8 @@
-# @git-headless-cms/core
+# @malihub/git-headless-cms-core
 
 > **Core Engine for Git Headless CMS (REST API Handlers, JSON/Markdown Mutators, Git Providers & Auth).**
 
-[![NPM Version](https://img.shields.io/npm/v/@git-headless-cms/core.svg)](https://www.npmjs.com/package/@git-headless-cms/core)
+[![NPM Version](https://img.shields.io/npm/v/@malihub/git-headless-cms-core.svg)](https://www.npmjs.com/package/@malihub/git-headless-cms-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -10,7 +10,7 @@
 ## 🚀 Installation
 
 ```bash
-npm install @git-headless-cms/core
+npm install @malihub/git-headless-cms-core
 ```
 
 ---
@@ -20,7 +20,7 @@ npm install @git-headless-cms/core
 The package exports `createCmsRequestHandler` compatible with standard `Request` and `Response` objects (Node 18+, Astro, Next.js, Cloudflare Workers, etc.).
 
 ```typescript
-import { createCmsRequestHandler } from '@git-headless-cms/core';
+import { createCmsRequestHandler } from '@malihub/git-headless-cms-core';
 
 const handleCmsRequest = createCmsRequestHandler({
   basePath: '/api/cms',

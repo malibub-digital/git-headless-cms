@@ -3,7 +3,7 @@
 > **Lightweight, framework-agnostic, and customizable Git-based Headless CMS engine.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![NPM Version](https://img.shields.io/npm/v/@git-headless-cms/core.svg)](https://www.npmjs.com/package/@git-headless-cms/core)
+[![NPM Version](https://img.shields.io/npm/v/@malihub/git-headless-cms-core.svg)](https://www.npmjs.com/package/@malihub/git-headless-cms-core)
 
 ---
 
@@ -24,9 +24,9 @@
 
 | Package | Version | Description |
 | :--- | :--- | :--- |
-| [`@git-headless-cms/core`](./packages/core) | `0.1.0` | Core engine with REST API handlers, JSON/MD mutators, and Git Providers. |
-| [`@git-headless-cms/astro`](./packages/astro) | `0.1.0` | Official Astro integration (automates API route injection). |
-| [`@git-headless-cms/web-components`](./packages/web-components) | `0.1.0` | Framework-agnostic `<git-cms-toolbar>` UI element. |
+| [`@malihub/git-headless-cms-core`](./packages/core) | `0.1.0` | Core engine with REST API handlers, JSON/MD mutators, and Git Providers. |
+| [`@malihub/git-headless-cms-astro`](./packages/astro) | `0.1.0` | Official Astro integration (automates API route injection). |
+| [`@malihub/git-headless-cms-web-components`](./packages/web-components) | `0.1.0` | Framework-agnostic `<git-cms-toolbar>` UI element. |
 
 ---
 
@@ -36,13 +36,13 @@
 
 ```bash
 # Install core engine
-npm install @git-headless-cms/core
+npm install @malihub/git-headless-cms-core
 
 # For Astro projects
-npm install @git-headless-cms/astro
+npm install @malihub/git-headless-cms-astro
 
 # For frontend UI toolbar
-npm install @git-headless-cms/web-components
+npm install @malihub/git-headless-cms-web-components
 ```
 
 ### 2. Astro Integration
@@ -51,7 +51,7 @@ In your `astro.config.mjs`:
 
 ```javascript
 import { defineConfig } from 'astro/config';
-import gitCms from '@git-headless-cms/astro';
+import gitCms from '@malihub/git-headless-cms-astro';
 
 export default defineConfig({
   output: 'hybrid',
@@ -68,7 +68,7 @@ export default defineConfig({
 ### 3. Web Components Toolbar
 
 ```html
-<script type="module" src="node_modules/@git-headless-cms/web-components/dist/index.js"></script>
+<script type="module" src="node_modules/@malihub/git-headless-cms-web-components/dist/index.js"></script>
 
 <!-- Renders bottom floating toolbar -->
 <git-cms-toolbar data-api-base="/api/cms"></git-cms-toolbar>
@@ -78,7 +78,7 @@ export default defineConfig({
 
 ## 🛠️ REST API Endpoints
 
-All requests are handled by `@git-headless-cms/core`:
+All requests are handled by `@malihub/git-headless-cms-core`:
 
 - `POST /api/cms/save` : Saves local drafts and applies array & content operations (`ADD_ARRAY_ITEM`, `DELETE_ARRAY_ITEM`, `REORDER_ARRAY_ITEM`, `CREATE_CONTENT_FILE`, `DELETE_CONTENT_FILE`).
 - `POST /api/cms/publish` : Publishes modified files to the configured Git repository.

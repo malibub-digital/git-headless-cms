@@ -1,8 +1,8 @@
-# @git-headless-cms/astro
+# @malihub/git-headless-cms-astro
 
 > **Official Astro Integration for Git Headless CMS (Automatic REST API route injection).**
 
-[![NPM Version](https://img.shields.io/npm/v/@git-headless-cms/astro.svg)](https://www.npmjs.com/package/@git-headless-cms/astro)
+[![NPM Version](https://img.shields.io/npm/v/@malihub/git-headless-cms-astro.svg)](https://www.npmjs.com/package/@malihub/git-headless-cms-astro)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -10,7 +10,7 @@
 ## 🚀 Installation
 
 ```bash
-npm install @git-headless-cms/astro @git-headless-cms/core
+npm install @malihub/git-headless-cms-astro @malihub/git-headless-cms-core
 ```
 
 ---
@@ -21,7 +21,7 @@ Add `gitCmsIntegration` to your `astro.config.mjs`:
 
 ```javascript
 import { defineConfig } from 'astro/config';
-import gitCms from '@git-headless-cms/astro';
+import gitCms from '@malihub/git-headless-cms-astro';
 
 export default defineConfig({
   // Ensure 'hybrid' or 'server' mode to handle API endpoints dynamically

@@ -10,11 +10,20 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./dist/endpoints/*": "./dist/endpoints/*",
+    "./endpoints/*": {
+      "types": "./dist/endpoints/*.d.ts",
+      "import": "./dist/endpoints/*.js"
+    },
+    "./endpoints/*.js": {
+      "types": "./dist/endpoints/*.d.ts",
+      "import": "./dist/endpoints/*.js"
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --clean",
-    "dev": "tsup src/index.ts --format esm --dts --watch"
+    "build": "tsup src/index.ts src/endpoints/*.ts --out-dir dist --format esm --dts --clean",
+    "dev": "tsup src/index.ts src/endpoints/*.ts --out-dir dist --format esm --dts --watch"
   },
   "dependencies": {
     "@malihub/git-headless-cms-core": "^0.1.0"
