@@ -1,0 +1,52 @@
+{
+  "name": "@malihub/git-headless-cms-core",
+  "version": "0.1.0",
+  "description": "Git-based Headless CMS Engine with REST API handlers, JSON/Markdown mutators and Git API Providers",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  },
+  "keywords": [
+    "git",
+    "cms",
+    "headless-cms",
+    "git-cms",
+    "github-api",
+    "rest-api",
+    "inline-editing"
+  ],
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malihub-digital/git-headless-cms.git",
+    "directory": "packages/core"
+  },
+  "author": "MaliHub",
+  "license": "MIT"
+}
