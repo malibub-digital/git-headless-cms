@@ -68,6 +68,7 @@ export async function processCmsSaveRequest(
 
   const siteConfigDrafts: Record<string, string> = {};
   const markdownDraftsByFile: Record<string, Record<string, string>> = {};
+  const jsonDraftsByFile: Record<string, Record<string, string>> = {};
 
   for (const [key, value] of Object.entries(drafts)) {
     if (key.startsWith('siteConfig.')) {
@@ -75,10 +76,17 @@ export async function processCmsSaveRequest(
       siteConfigDrafts[configPath] = value;
     } else if (key.includes('::')) {
       const [relPath, fieldKey] = key.split('::');
-      if (!markdownDraftsByFile[relPath]) {
-        markdownDraftsByFile[relPath] = {};
+      if (relPath.endsWith('.json')) {
+        if (!jsonDraftsByFile[relPath]) {
+          jsonDraftsByFile[relPath] = {};
+        }
+        jsonDraftsByFile[relPath][fieldKey] = value;
+      } else {
+        if (!markdownDraftsByFile[relPath]) {
+          markdownDraftsByFile[relPath] = {};
+        }
+        markdownDraftsByFile[relPath][fieldKey] = value;
       }
-      markdownDraftsByFile[relPath][fieldKey] = value;
     }
   }
 
@@ -175,6 +183,27 @@ export async function processCmsSaveRequest(
       updatedFilesSet.add('site.config.json');
     } catch (err: any) {
       errors.push(`Error updating site.config.json: ${err.message}`);
+    }
+  }
+
+  for (const [relPath, fields] of Object.entries(jsonDraftsByFile)) {
+    const fullPath = path.join(projectRoot, relPath);
+    try {
+      if (fs.existsSync(fullPath)) {
+        const fileContent = fs.readFileSync(fullPath, 'utf-8');
+        const jsonObj = JSON.parse(fileContent);
+
+        for (const [fieldKey, value] of Object.entries(fields)) {
+          setDeepProperty(jsonObj, fieldKey, value);
+        }
+
+        fs.writeFileSync(fullPath, JSON.stringify(jsonObj, null, 2), 'utf-8');
+        updatedFilesSet.add(relPath);
+      } else {
+        errors.push(`JSON file not found: ${relPath}`);
+      }
+    } catch (err: any) {
+      errors.push(`Error updating JSON file ${relPath}: ${err.message}`);
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@malihub/git-headless-cms-astro",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Astro Integration for git-headless-cms (Auto API route injection and components)",
   "type": "module",
   "main": "./dist/index.js",
@@ -26,10 +26,10 @@
     "dev": "tsup src/index.ts src/endpoints/*.ts --out-dir dist --format esm --dts --watch"
   },
   "dependencies": {
-    "@malihub/git-headless-cms-core": "^0.1.0"
+    "@malihub/git-headless-cms-core": "^0.1.1"
   },
   "peerDependencies": {
-    "astro": ">=4.0.0"
+    "astro": ">=3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

@@ -1,6 +1,6 @@
 {
   "name": "@malihub/git-headless-cms-web-components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Framework-agnostic Web Components UI toolbar and inline editor for git-headless-cms",
   "type": "module",
   "main": "./dist/index.js",
