@@ -1,7 +1,10 @@
 export async function hashSha256(text: string): Promise<string> {
+  const clean = (text || '').trim();
+  if (!clean) return '';
+
   if (typeof crypto !== 'undefined' && crypto.subtle) {
     const encoder = new TextEncoder();
-    const data = encoder.encode(text);
+    const data = encoder.encode(clean);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
@@ -9,7 +12,7 @@ export async function hashSha256(text: string): Promise<string> {
 
   // Node fallback
   const nodeCrypto = await import('crypto');
-  return nodeCrypto.createHash('sha256').update(text).digest('hex');
+  return nodeCrypto.createHash('sha256').update(clean).digest('hex');
 }
 
 export function extractAuthToken(request: Request): string | null {

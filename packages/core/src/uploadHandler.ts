@@ -13,7 +13,7 @@ export async function processCmsUploadRequest(
   options: CmsUploadOptions = {}
 ): Promise<Response> {
   const token = extractAuthToken(request);
-  const rawSecret = options.adminSecret || process.env.CMS_ADMIN_SECRET || 'admin123';
+  const rawSecret = options.adminSecret || process.env.CMS_ADMIN_SECRET || '';
   const expectedHash = await hashSha256(rawSecret);
 
   if (!token || token !== expectedHash) {

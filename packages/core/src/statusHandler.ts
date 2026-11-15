@@ -11,7 +11,7 @@ export async function processCmsStatusRequest(
   options: CmsStatusOptions = {}
 ): Promise<Response> {
   const token = extractAuthToken(request);
-  const rawSecret = options.adminSecret || process.env.CMS_ADMIN_SECRET || 'admin123';
+  const rawSecret = options.adminSecret || process.env.CMS_ADMIN_SECRET || '';
   const expectedHash = await hashSha256(rawSecret);
 
   const isAuthenticated = token === expectedHash;
