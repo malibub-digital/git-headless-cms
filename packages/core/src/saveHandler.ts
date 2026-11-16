@@ -194,7 +194,15 @@ export async function processCmsSaveRequest(
         const jsonObj = JSON.parse(fileContent);
 
         for (const [fieldKey, value] of Object.entries(fields)) {
-          setDeepProperty(jsonObj, fieldKey, value);
+          let parsedVal: any = value;
+          if (typeof value === 'string' && (value.startsWith('{') || value.startsWith('['))) {
+            try {
+              parsedVal = JSON.parse(value);
+            } catch {
+              parsedVal = value;
+            }
+          }
+          setDeepProperty(jsonObj, fieldKey, parsedVal);
         }
 
         fs.writeFileSync(fullPath, JSON.stringify(jsonObj, null, 2), 'utf-8');
