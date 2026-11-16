@@ -1,6 +1,6 @@
 {
   "name": "@malihub/git-headless-cms-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Git-based Headless CMS Engine with REST API handlers, JSON/Markdown mutators and Git API Providers",
   "type": "module",
   "main": "./dist/index.js",
