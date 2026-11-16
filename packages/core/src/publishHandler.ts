@@ -47,6 +47,21 @@ async function ensureEnvLoaded(projectRoot: string) {
   } catch {}
 }
 
+const EXCLUDED_DIRS = new Set([
+  'node_modules',
+  '.git',
+  '.astro',
+  'dist',
+  '.dev',
+  '.gemini',
+  '.vscode',
+  'public',
+  'assets',
+  'scripts',
+  'tests',
+  'coverage',
+]);
+
 function findModifiedContentFiles(dir: string, baseDir: string = dir): GitFileChange[] {
   const changes: GitFileChange[] = [];
   if (!fs.existsSync(dir)) return changes;
@@ -55,7 +70,7 @@ function findModifiedContentFiles(dir: string, baseDir: string = dir): GitFileCh
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== '.astro' && entry.name !== 'dist') {
+      if (!EXCLUDED_DIRS.has(entry.name)) {
         changes.push(...findModifiedContentFiles(fullPath, baseDir));
       }
     } else if (entry.isFile()) {
@@ -69,6 +84,25 @@ function findModifiedContentFiles(dir: string, baseDir: string = dir): GitFileCh
     }
   }
   return changes;
+}
+
+function resolveContentDirectories(targetProjectRoot: string): string[] {
+  const candidates = [
+    path.join(targetProjectRoot, 'src', 'content'),
+    path.join(targetProjectRoot, 'template', 'src', 'content'),
+    path.join(targetProjectRoot, 'src', 'data'),
+    path.join(targetProjectRoot, 'template', 'src', 'data'),
+    path.join(targetProjectRoot, 'data'),
+    path.join(targetProjectRoot, 'template', 'data'),
+    path.join(targetProjectRoot, 'content'),
+    path.join(targetProjectRoot, 'template', 'content'),
+  ];
+
+  const found = candidates.filter((c) => fs.existsSync(c));
+  if (found.length > 0) {
+    return Array.from(new Set(found));
+  }
+  return [targetProjectRoot];
 }
 
 function findRepoRoot(startDir: string): string {
@@ -157,11 +191,24 @@ export async function processCmsPublishRequest(
       ? path.join(repoRoot, 'template')
       : repoRoot;
 
-    const srcDir = path.join(targetProjectRoot, 'src', 'content');
-    const templateSrcDir = path.join(targetProjectRoot, 'template', 'src', 'content');
-    const contentDir = fs.existsSync(srcDir) ? srcDir : (fs.existsSync(templateSrcDir) ? templateSrcDir : targetProjectRoot);
+    const contentDirs = resolveContentDirectories(targetProjectRoot);
+    const modifiedFilesMap = new Map<string, GitFileChange>();
 
-    const modifiedFiles = findModifiedContentFiles(contentDir, repoRoot);
+    for (const cDir of contentDirs) {
+      const filesInDir = findModifiedContentFiles(cDir, repoRoot);
+      for (const f of filesInDir) {
+        modifiedFilesMap.set(f.path, f);
+      }
+    }
+
+    // Check optional root site.config.json
+    const rootSiteConfig = path.join(targetProjectRoot, 'site.config.json');
+    if (fs.existsSync(rootSiteConfig)) {
+      const relPath = path.relative(repoRoot, rootSiteConfig).replace(/\\/g, '/');
+      modifiedFilesMap.set(relPath, { path: relPath, content: fs.readFileSync(rootSiteConfig, 'utf-8') });
+    }
+
+    const modifiedFiles = Array.from(modifiedFilesMap.values());
 
     if (modifiedFiles.length === 0) {
       return new Response(
