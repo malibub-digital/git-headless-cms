@@ -8,6 +8,8 @@ export interface CmsPublishOptions {
   adminSecret?: string;
   gitEnabled?: boolean;
   gitBranch?: string;
+  gitBaseBranch?: string;
+  createPullRequest?: boolean;
   gitProvider?: string;
   gitToken?: string;
   gitOwner?: string;
@@ -172,11 +174,19 @@ export async function processCmsPublishRequest(
       );
     }
 
+    const baseBranch = options.gitBaseBranch || process.env.CMS_GIT_BASE_BRANCH || 'main';
+    const createPrEnv = process.env.CMS_CREATE_PR;
+    const shouldCreatePr = options.createPullRequest !== undefined
+      ? options.createPullRequest
+      : (createPrEnv !== undefined ? (String(createPrEnv).toLowerCase() === 'true' || String(createPrEnv) === '1') : (targetBranch !== baseBranch));
+
     const provider = getGitProvider(providerType);
     const result = await provider.publish({
       owner: gitOwner,
       repo: gitRepo,
       branch: targetBranch,
+      baseBranch,
+      createPullRequest: shouldCreatePr,
       commitMessage: 'cms(publish): update content via editor',
       files: modifiedFiles,
       token: gitToken,
@@ -188,6 +198,8 @@ export async function processCmsPublishRequest(
         message: result.message,
         gitPushed: true,
         commitSha: result.commitSha,
+        pullRequestUrl: result.pullRequestUrl,
+        pullRequestNumber: result.pullRequestNumber,
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
